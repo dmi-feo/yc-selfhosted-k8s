@@ -1,6 +1,6 @@
-## How to create a k8s cluster over compute nodes: N simple steps.
+## How to create a k8s cluster over compute nodes in yandex-cloud-like cloud: N simple steps.
 
-Assuming you already have cloud + folder + vpc + virtual machine with external ip address (aka dev-vm)
+Assuming you already have: cloud + folder + vpc + virtual machine with external ip address (aka dev-vm)
 
 Tested in Nebius Israel; however must be 100% compatible with Yandex Cloud.
 
