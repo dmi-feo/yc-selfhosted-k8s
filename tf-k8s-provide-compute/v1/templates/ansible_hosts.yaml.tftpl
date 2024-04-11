@@ -1,0 +1,43 @@
+all:
+  hosts:
+    %{ for vm in masters }
+    ${vm.name}:
+      ansible_host: ${vm.ip}
+      ip: ${vm.ip}
+      access_ip: ${vm.ip}
+    %{ endfor }
+
+    %{ for vm in nodes }
+    ${vm.name}:
+      ansible_host: ${vm.ip}
+      ip: ${vm.ip}
+      access_ip: ${vm.ip}
+    %{ endfor }
+
+  children:
+    kube_control_plane:
+      hosts:
+        %{ for vm in masters }
+        ${vm.name}:
+        %{ endfor }
+    kube_node:
+      hosts:
+        %{ for vm in nodes }
+        ${vm.name}:
+        %{ endfor }
+        %{ if workload_on_masters }
+        %{ for vm in masters }
+        ${vm.name}:
+        %{ endfor }
+        %{ endif }
+    etcd:
+      hosts:
+        %{ for vm in masters }
+        ${vm.name}:
+        %{ endfor }
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}

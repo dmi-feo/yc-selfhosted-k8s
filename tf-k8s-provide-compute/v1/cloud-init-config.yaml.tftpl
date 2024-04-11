@@ -1,0 +1,15 @@
+#cloud-config
+ssh_pwauth: no
+users:
+%{ for user in users ~}
+  - name: ${user.name}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh-authorized-keys:
+    %{ for key in user.ssh_keys ~}
+    - "${key}"
+    %{ endfor ~}
+%{ endfor ~}
+
+runcmd:
+- apt-get update && apt-get install -y nfs-common

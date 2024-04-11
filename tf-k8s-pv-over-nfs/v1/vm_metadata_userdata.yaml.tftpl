@@ -1,0 +1,28 @@
+#cloud-config
+ssh_pwauth: no
+users:
+%{ for user in users ~}
+  - name: ${user.name}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh-authorized-keys:
+    %{ for key in user.ssh_keys ~}
+    - "${key}"
+    %{ endfor ~}
+%{ endfor ~}
+
+fs_setup:
+  - device: /dev/disk/by-id/virtio-${nfs_disk_device_name}
+    filesystem: ext4
+    partition: auto
+    overwrite: false
+mounts:
+  - [/dev/disk/by-id/virtio-${nfs_disk_device_name}, ${nfs_disk_mount_path}, ext4, 'defaults,errors=remount-ro', '0', '2']
+runcmd:
+  - mkdir -p ${nfs_disk_mount_path}
+  - chown nobody:nogroup ${nfs_disk_mount_path}
+  - apt-get update && apt-get install -y nfs-server
+write_files:
+  - path: /etc/exports
+    content: |
+      ${nfs_disk_mount_path} ${nfs_allowed_from}(rw,sync,no_subtree_check)
