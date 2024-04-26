@@ -49,3 +49,16 @@ variable "vm_parameters" {
     boot_disk_image_id    = string
   })
 }
+
+variable "oidc_auth_parameters" {
+  type = object({
+    enabled   = bool
+    url       = string
+    client_id = string
+  })
+  default = {
+    enabled   = false
+    url       = null
+    client_id = null
+  }
+}
