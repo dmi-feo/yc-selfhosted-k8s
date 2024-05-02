@@ -46,7 +46,6 @@ variable "vm_parameters" {
       core_fraction = number
     })
     boot_disk_size_gbytes = optional(number, 15)
-    boot_disk_image_id    = string
   })
 }
 
