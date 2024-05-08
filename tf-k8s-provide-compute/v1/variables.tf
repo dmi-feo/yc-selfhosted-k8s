@@ -61,3 +61,8 @@ variable "oidc_auth_parameters" {
     client_id = null
   }
 }
+
+variable "supplementary_addresses_in_ssl_keys" {
+  type    = list(string)
+  default = []
+}
