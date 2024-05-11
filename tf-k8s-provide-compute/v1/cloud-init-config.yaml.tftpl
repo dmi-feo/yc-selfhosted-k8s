@@ -11,5 +11,7 @@ users:
     %{ endfor ~}
 %{ endfor ~}
 
+fqdn: ${hostname}
+
 runcmd:
 - apt-get update && apt-get install -y nfs-common

@@ -37,7 +37,19 @@ variable "api_port" {
   default = 6443
 }
 
-variable "vm_parameters" {
+variable "masters_parameters" {
+  type = object({
+    platform_id = string
+    resources = object({
+      cores         = number
+      memory        = number
+      core_fraction = number
+    })
+    boot_disk_size_gbytes = optional(number, 15)
+  })
+}
+
+variable "nodes_parameters" {
   type = object({
     platform_id = string
     resources = object({
@@ -64,5 +76,14 @@ variable "oidc_auth_parameters" {
 
 variable "supplementary_addresses_in_ssl_keys" {
   type    = list(string)
+  default = []
+}
+
+variable "node_listeners" {
+  type = list(object({
+    name        = string
+    port        = number
+    target_port = number
+  }))
   default = []
 }

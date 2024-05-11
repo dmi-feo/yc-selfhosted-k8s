@@ -5,11 +5,11 @@ resource "local_file" "config" {
       cluster_name         = var.cluster_name
       kubeconfig_localhost = true
       supplementary_addresses_in_ssl_keys = concat(
-        [yandex_vpc_address.k8s_api.external_ipv4_address[0].address],
+        [yandex_vpc_address.k8s_masters.external_ipv4_address[0].address],
         var.supplementary_addresses_in_ssl_keys,
       )
       loadbalancer_apiserver = {
-        address = yandex_vpc_address.k8s_api.external_ipv4_address[0].address
+        address = yandex_vpc_address.k8s_masters.external_ipv4_address[0].address
         port    = var.api_port
       }
     },
